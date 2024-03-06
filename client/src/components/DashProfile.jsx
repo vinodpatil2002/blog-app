@@ -9,12 +9,13 @@ import { app } from '../firebase.js';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import {Link} from 'react-router-dom';
 // import { set } from 'mongoose';
 // import { set } from 'mongoose';
 
 export default function DashProfile() {
     const dispatch = useDispatch();
-    const {currentUser, error} = useSelector(state => state.user);
+    const {currentUser, error, loading} = useSelector(state => state.user);
     const [imageFile, setImageFile] = useState(null);
     const [imageFileUrl, setImageFileUrl] = useState(null);
     const [imageFileUploadingProgress, setImageFileUploadingProgress] = useState(0);
@@ -186,7 +187,16 @@ export default function DashProfile() {
             <TextInput type='text' id='username' placeholder='username' defaultValue={currentUser.username} onChange={handleChange} />
             <TextInput type='email' id='email' placeholder='email' defaultValue={currentUser.email}  onChange={handleChange}/>
             <TextInput type='password' id='password' placeholder='password'  onChange={handleChange} />
-            <Button type='submit' gradientDuoTone='purpleToBlue' outline >Update</Button>
+            <Button type='submit' gradientDuoTone='purpleToBlue'
+              disabled={loading || imageFileUploadingProgress || imageFileUploadSuccess}
+            outline >
+              {loading ? 'Loading...' : 'Update'}
+            </Button>
+            {currentUser.isAdmin  && (
+              <Link to={'/create-post'}>
+                <Button type='button' gradientDuoTone='purpleToPink' outline className='w-full' >Create Post</Button>
+              </Link> 
+            )}
         </form>
         <div className="text-red-500 flex justify-between mt-5">
             <span onClick={
