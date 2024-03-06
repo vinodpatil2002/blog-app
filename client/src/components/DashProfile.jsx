@@ -1,6 +1,6 @@
 // import React from 'react'
 import { Alert, Button, Modal, TextInput } from 'flowbite-react';
-import { updateFailure,updateStart,updateSuccess,deleteUserFailure,deleteUserStart,deleteUserSuccess } from '../redux/user/userSlice.js';
+import { updateFailure,updateStart,updateSuccess,deleteUserFailure,deleteUserStart,deleteUserSuccess, signOutSuccess } from '../redux/user/userSlice.js';
 import { useDispatch } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 import {useSelector} from 'react-redux';
@@ -126,6 +126,21 @@ export default function DashProfile() {
         dispatch(deleteUserFailure(error.message));
       }
     };
+    const handleSignOut = async () => {
+      try {
+        const res = await fetch('/api/user/signout', {
+          method: 'POST',
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          console.log(data.message);
+        }else {
+          dispatch(signOutSuccess());
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   return (
     <div className='max-w-lg mx-auto p-3 w-full'>
         <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
@@ -177,7 +192,7 @@ export default function DashProfile() {
             <span onClick={
                 () => setShowModal(true)
             } className=''>Delete Account</span>
-            <span className=''>Sign Out</span>
+            <span onClick={handleSignOut} className=''>Sign Out</span>
         </div>
         {updateUserSuccess && <Alert color='success'>{updateUserSuccess}</Alert>}
         {updateUserError && <Alert color='failure'>{updateUserError}</Alert>}
