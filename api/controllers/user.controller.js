@@ -1,6 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
+import e from 'express';
 
 export const test = (req, res) => {
     res.json({message: "API is working!!"});
@@ -48,3 +49,15 @@ export const updateUser = async (req, res, next) => {
             next(error);
         }
 };
+
+export const deleteUser = async (req, res, next) => {
+    if(req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "Forbidden"));
+    }
+    try {
+        await User.findByIdAndDelete(req.params.userId);
+        res.status(200).json({message: "User deleted successfully"});
+    } catch (error) {
+        next(error);
+    }
+}
