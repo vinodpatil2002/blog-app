@@ -106,7 +106,7 @@ const handleDeletePost = async () => {
                                 } }>Delete</button>
                             </Table.Cell>
                             <Table.Cell>
-                                <Link to={`/updatepost/${post._id}`}  >
+                                <Link to={`/update-post/${post._id}`}  >
                                 <button type="button" className="bg-blue-500 hover:bg-blue-400 text-white px-3 py-1 rounded-md" onClick={() => handleEdit(post._id)}>Edit</button>
                                 </Link>
                             </Table.Cell>
