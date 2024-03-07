@@ -51,6 +51,23 @@ const handleShowMore = async () => {
         console.error(error);
     }
 };
+const handleDeleteUser = async () => {
+    try {
+        const res = await fetch(`/api/user/delete/${userId}`, {
+            method: "DELETE",
+        });
+        const data = await res.json();
+        if(res.ok){
+            setUsers(users.filter((user) => user._id !== userId));
+            setShowModal(false);
+        }
+        else {
+            console.log(data.message);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
 
     return (
     <div className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar scrollbar-track-slate-700 scrollbar-thumb-slate-800">
@@ -74,7 +91,7 @@ const handleShowMore = async () => {
                             <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                             <Table.Cell>{new Date(user.createdAt).toLocaleDateString() }</Table.Cell>
                             <Table.Cell>
-                                    <img src={user.profilePicture} alt={user.username} className="h-10 w-10 object-cover rounded bg-gray-500" />   
+                                    <img src={user.profilePicture} alt={user.username} className="h-10 w-10 object-cover rounded-full bg-gray-500" />   
                             </Table.Cell>
                             <Table.Cell>
                                 {user.username}
@@ -117,7 +134,7 @@ const handleShowMore = async () => {
               Are you sure you want to delete this User?
             </h3>
             <div className='flex justify-center gap-4'>
-              <Button color='failure'>
+              <Button color='failure' onClick={handleDeleteUser}>
                 Yes, I'm sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
