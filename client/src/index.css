@@ -11,3 +11,35 @@ body {
 .ql-editor {
     font-size: 1.05rem;
 }
+
+.post-content p{
+  margin-bottom: 0.5rem;
+}
+
+.post-content h1{
+  font-size: 1.05rem;
+  font-weight: 600;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h2{
+  font-size: 1rem;
+  /* font-weight: 600; */
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content a{
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.post-content a:hover{
+  text-decoration: underline;
+}
+
+.dark .post-content a{
+  color: #90caf9;
+}
