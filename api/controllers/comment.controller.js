@@ -82,3 +82,25 @@ export const deleteComment = async (req, res, next) => {
         next(errorHandler(500, error.message));
     }
 };
+
+export const getCommentSection = async (req, res, next) => {
+    if(!req.user.isAdmin) {
+        return next(errorHandler(401, 'Unauthorized'));
+    }
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0;
+        const limit = parseInt(req.query.limit) || 9;
+        const sortDirection = req.query.sort === 'desc' ? -1 : 1;
+        const comments = await Comment.find()
+        .sort({createdAt: sortDirection})
+        .limit(limit)
+        .skip(startIndex);
+        const totalComments = await Comment.countDocuments();
+        const now = new Date();
+        const oneMonthAgo = new Date(now.setMonth(now.getMonth() - 1));
+        const commentsInLastMonth = await Comment.countDocuments({createdAt: {$gte: oneMonthAgo}});
+        res.status(200).json({comments, totalComments, commentsInLastMonth});
+    } catch (error) {
+        next(errorHandler(500, error.message));            
+    }  
+}
