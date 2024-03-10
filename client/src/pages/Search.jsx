@@ -165,8 +165,4 @@ export default function Search() {
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e9c7c554bfede1ae3d66cfe51703a01e9c9b002d
